@@ -13,18 +13,22 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-const Routes=[];
+
+
+import {routes} from './routes';
+
 const router = new VueRouter({
-  routes: Routes
+  routes,
+  mode:'history'
 }); 
 
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
 
 
 
 const app = new Vue({
     el: '#app',
-  router: router
+    router
    
 });

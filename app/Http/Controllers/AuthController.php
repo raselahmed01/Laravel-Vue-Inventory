@@ -11,9 +11,9 @@ class AuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','signup']]);
+        $this->middleware('JWT',['except' => ['login','signup']]);
     }
-
+        
     /**
      * Get a JWT via given credentials.
      *
@@ -24,7 +24,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Credentials couldnt match plz try again'], 401);
+            return response()->json(['error' => 'Email Or Password are Invalid Try again...'], 401);
         }
 
         return $this->respondWithToken($token);
@@ -94,7 +94,10 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user_name'=>auth()->user()->name,
+            'user_id'=>auth()->user()->id,
+            'email'=>auth()->user()->email,
         ]);
     }
 }

@@ -1,4 +1,4 @@
-Class AppStorage{
+class AppStorage{
 
 	storeToken(token){
 

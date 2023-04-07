@@ -19,6 +19,7 @@
     <div id="app">
   <div id="wrapper">
     <!-- Sidebar -->
+    <nav id="sidebar" v-show=" $route.path === '/' || $route.path === '/register' || $route.path === '/forgetpass' ? false : true" style="display:none">
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon">
@@ -117,11 +118,12 @@
       <hr class="sidebar-divider">
       <div class="version" id="version-ruangadmin"></div>
     </ul>
+    </nav>
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
         <!-- TopBar -->
-        <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+        <nav id="topbar" v-show=" $route.path === '/' || $route.path === '/register' || $route.path === '/forgetpass' ? false : true" style="display:none"class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
           <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
@@ -281,7 +283,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile rounded-circle" src="{{asset('backend/img/boy.png')}}" style="max-width: 60px">
-                <span class="ml-2 d-none d-lg-inline text-white small">Maman Ketoprak</span>
+                <router-link to="/logout" class="ml-2 d-none d-lg-inline text-white small">Log Out</router-link>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -328,6 +330,16 @@
   <script src="{{asset('js/app.js')}}"></script> 
 
   <!-- script tag are comment cause all the file load from app.js-->
+  <script>
+    let token=localStorage.getItem('token');
+    if(token){
+      $("#sidebar").css("display","");
+      $("#topbar").css("display","");
+    }
+
+    
+  </script>
+
 
   <script src="{{asset('backend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script> 
   <script src="{{asset('backend/vendor/jquery-easing/jquery.easing.min.js')}}"></script>

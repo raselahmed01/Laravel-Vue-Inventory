@@ -22,6 +22,12 @@ const router = new VueRouter({
 import  User   from './Helpers/User';
 window.User = User;
 
+//Import Notification Helper Class
+
+import Notification from './Helpers/Notification';
+window.Notification = Notification;
+
+
 //Sweet Alert Start
 
 import Swal from 'sweetalert2';
@@ -31,7 +37,7 @@ const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
-  timer: 3000,
+  timer: 2000,
   timerProgressBar: true,
   didOpen: (toast) => {
     toast.addEventListener('mouseenter', Swal.stopTimer)

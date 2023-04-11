@@ -2,30 +2,58 @@
 	
 	<div>
 
-        <div class="row">
+		
             <router-link to="/store-employee" class="btn btn-primary">Add Employee</router-link>
-        </div>
-		<div class="row justify-content-center">
-	      <div class="col-xl-12 col-lg-12 col-md-12">
-	        <div class="card shadow-sm my-5">
-	          <div class="card-body p-0">
-	            <div class="row">
-	              <div class="col-lg-12">
-	                <div class="login-form">
-	                  <div class="text-center">
-	                    <h1 class="h4 text-gray-900 mb-4">All Employee</h1>
-                        <hr>
-	                  </div>
-                  
-	                  
-	                  
-	                </div>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-	    </div>
+			<br><br>
+        
+		<input v-model="searchData" type="text" placeholder="Search Employee by name..." class="form-control" style="width: 300px;">
+		<br>
+		<div class="row">
+            <div class="col-lg-12 mb-4">
+              
+              <div class="card">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary"> Employee List</h6>
+                </div>
+                <div class="table-responsive">
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Photo</th>
+                        <th>Phone</th>
+						<th>Salary</th>
+						<th>Join Date</th>
+						<th>Nid</th>
+						
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="employee in filterSearch" :key="employee.id">
+                        <td>{{employee.emp_name}}</td>
+						<td>{{employee.emp_email}}</td>
+						<td><img id="img" :src="employee.emp_photo" alt=""></td>
+						<td>{{employee.emp_phone}}</td>
+						<td>{{employee.emp_salary}}</td>
+						<td>{{employee.emp_join_date}}</td>
+						<td>{{employee.emp_nid}}</td>
+                        
+                        <td>
+							<a href="#" class="btn btn-sm btn-primary">Edit</a>
+							<a href="#" class="btn btn-sm btn-danger">Delete</a>
+						
+						</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer"></div>
+              </div>
+            </div>
+          </div>
 
 	</div>
 </template>
@@ -40,6 +68,39 @@ export default{
 		if(!User.loggedIn()){
 			this.$router.push({name:'/'})
 			}
+	},
+
+	data(){
+
+		return{
+			allEmployee:[],
+			searchData:''
+		}
+		
+	},
+	computed:{
+
+		filterSearch(){
+
+			return this.allEmployee.filter(employee=>{
+
+				return employee.emp_name.match(this.searchData);
+			})
+
+		}
+		
+		
+	},
+	methods:{
+		allemployee(){
+
+			axios.get('/api/employee/')
+			.then(({data})=>(this.allEmployee=data))
+			.catch()
+		}
+	},
+	created(){
+		this.allemployee();
 	}
 }
 
@@ -49,5 +110,8 @@ export default{
 
 <style type="text/css">
 	
-
+#img{
+	height: 80px;
+	width: 40px;
+}
 </style>

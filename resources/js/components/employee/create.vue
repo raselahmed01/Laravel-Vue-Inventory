@@ -24,6 +24,7 @@
                             <input type="text" v-model="form.emp_name" class="form-control" id="exampleInputFirstName" placeholder="Enter Employee Full Name">
                             <small class="text-danger" v-if="errors.emp_name">{{ errors.emp_name[0] }}</small>
                             </div>
+                            
                             <div class="col-md-6">
                             <label>Email</label>
                             <input type="text" v-model="form.emp_email" class="form-control" id="exampleInputFirstName" placeholder="Enter employee Email">
@@ -72,7 +73,7 @@
                             <div class="col-md-6">
                             <label>Photo</label>
                             <input type="file" @change="onFileSelect"  class="form-control" id="exampleInputFirstName" placeholder="Enter employee photo">
-                            <small class="text-danger" v-if="errors.emp_photo">{{ errors.emp_photo[0] }}</small>
+                            
                             </div>
                             <div class="col-md-6">
                                 <img :src="form.emp_photo" alt="" style="height: 90px;width: 200px;">
@@ -156,9 +157,12 @@ export default{
           Notification.success();
 
         })
-        .catch(error=> { this.error=error.response.data.errors
+        .catch(error=>  {this.errors=error.response.data.errors
           Notification.error();
-        })
+        
+        }
+          
+        )
     },
   }
 	

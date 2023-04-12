@@ -96,7 +96,8 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        $singleEmployee=DB::table('employees')->where('id',$id)->first();
+        return response()->json($singleEmployee);
     }
 
  
@@ -109,7 +110,38 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $employee=new Employee();
+
+        
+            $employee->emp_name=$request->emp_name;
+            $employee->emp_email=$request->emp_email;
+            $employee->emp_phone=$request->emp_phone;
+            $employee->emp_salary=$request->emp_salary;
+            $employee->emp_address=$request->emp_address;
+            $employee->emp_nid=$request->emp_nid;
+            $employee->emp_join_date=$request->emp_join_date;
+
+            $newphoto=$request->emp_new_photo;
+
+            if($newphoto){
+                $position=strpos($newphoto,';');
+                $sub=substr($newphoto,0,$position);                
+                $ext=explode($$sub,'/')[1];
+                $name=time().'.'.$ext;
+
+                $img=Image::make($newphoto)->resize();
+                $uploadpath='backend/employee/';
+                $imgUrl=$uploadpath.$name;
+                $success=$img->save($imgUrl);
+                if($success){
+                    $employee = DB::table('employees')->where('id',$id)->first();
+                    $old_photo=$employee->emp_photo;
+                    unlink($old_photo);
+                    $employee->where('id',$id)->update();
+                }else{
+                    $employee->where('id',$id)->update();
+                }
+            }
     }
 
     /**
@@ -120,6 +152,14 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $employee = DB::table('employees')->where('id',$id)->first();
+        $photo=$employee->emp_photo;
+
+        if($photo){
+            unlink($photo);
+            DB::table('employees')->where('id',$id)->delete();
+        }else{
+            DB::table('employees')->where('id',$id)->delete();
+        }
     }
 }

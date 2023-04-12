@@ -15,6 +15,7 @@ let home=require('./components/home.vue').default;
 
 let storeEmployee =require('./components/employee/create.vue').default;
 let allEmployee =require('./components/employee/index.vue').default;
+let editEmployee =require('./components/employee/edit.vue').default;
 
 export const routes=[
 
@@ -24,6 +25,7 @@ export const routes=[
 	{path:'/logout',component:logout,name:'logout'},
 	{path:'/home',component:home,name:'home'},
 	{path:'/store-employee',component:storeEmployee,name:'storeEmployee'},
-	{path:'/all-employee',component:allEmployee,name:'allEmployee'}
+	{path:'/all-employee',component:allEmployee,name:'allEmployee'},
+	{path:'/edit-employee/:id',component:editEmployee,name:'editEmployee'}
 
 ];

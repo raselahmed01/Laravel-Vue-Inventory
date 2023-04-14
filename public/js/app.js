@@ -622,7 +622,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
   axios.get('/api/employee/' + id).then(function (_ref) {
     var data = _ref.data;
     return _this.form = data;
-  })["catch"](console.log(this.error));
+  })["catch"](console.log(this.errors));
 }), _defineProperty(_created$data$created, "methods", {
   onFileSelect: function onFileSelect(event) {
     var _this2 = this;
@@ -633,7 +633,6 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       var reader = new FileReader();
       reader.onload = function (event) {
         _this2.form.emp_new_photo = event.target.result;
-        console.log(event.target.result);
       };
       reader.readAsDataURL(file);
     }

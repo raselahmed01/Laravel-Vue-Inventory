@@ -110,37 +110,59 @@ class EmployeeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $employee=new Employee();
+            
+            $data=array();
 
-        
-            $employee->emp_name=$request->emp_name;
-            $employee->emp_email=$request->emp_email;
-            $employee->emp_phone=$request->emp_phone;
-            $employee->emp_salary=$request->emp_salary;
-            $employee->emp_address=$request->emp_address;
-            $employee->emp_nid=$request->emp_nid;
-            $employee->emp_join_date=$request->emp_join_date;
+            $data['emp_name']=$request->emp_name;
+            $data['emp_email']=$request->emp_email;
+            $data['emp_phone']=$request->emp_phone;
+            $data['emp_salary']=$request->emp_salary;
+            $data['emp_address']=$request->emp_address;
+            $data['emp_nid']=$request->emp_nid;
+            $data['emp_join_date']=$request->emp_join_date;
+            
 
-            $newphoto=$request->emp_new_photo;
 
+            $newphoto = $request->emp_new_photo;
+
+
+            // $position=strpos($request->emp_photo,';');
+            // $sub=substr($request->emp_photo,0,$position);
+            // $extension=explode('/',$sub)[1];
+            // $img_name=time().".".$extension;
+
+            // $img=Image::make($request->emp_photo)->resize(320,280);
+
+            // $upload='backend/employee/';
+            // $imgurl=$upload.$img_name;
+ 
             if($newphoto){
                 $position=strpos($newphoto,';');
                 $sub=substr($newphoto,0,$position);                
-                $ext=explode($$sub,'/')[1];
+                $ext=explode('/',$sub)[1];
                 $name=time().'.'.$ext;
 
-                $img=Image::make($newphoto)->resize();
+                $img=Image::make($newphoto)->resize(320,280);
                 $uploadpath='backend/employee/';
                 $imgUrl=$uploadpath.$name;
                 $success=$img->save($imgUrl);
                 if($success){
-                    $employee = DB::table('employees')->where('id',$id)->first();
-                    $old_photo=$employee->emp_photo;
-                    unlink($old_photo);
-                    $employee->where('id',$id)->update();
-                }else{
-                    $employee->where('id',$id)->update();
+                    $data['emp_photo']=$imgUrl;
+                    $img = DB::table('employees')->where('id',$id)->first();
+                    
+                    $done= unlink($img->emp_photo);
+
+                   $employee = DB::table('employees')->where('id',$id)->update($data);
                 }
+            }
+            else{
+
+            
+            $old_photo=$request->emp_photo;
+            $data['emp_photo']=$old_photo;
+
+            $employee= DB::table('employees')->where('id',$id)->update($data);
+
             }
     }
 

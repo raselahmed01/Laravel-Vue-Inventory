@@ -120,13 +120,13 @@ export default{
 			form:{
 				emp_name:'',
 				emp_email:'',
-                emp_phone:'',
-                emp_salary:'',
-                emp_address:'',
-                emp_nid:'',
-				emp_join_date:'',
-				emp_photo:'',
-                emp_new_photo:'',
+        emp_phone:'',
+        emp_salary:'',
+        emp_address:'',
+        emp_nid:'',
+        emp_join_date:'',
+        emp_photo:'',
+        emp_new_photo:'',
 			},
 			errors:{ }
 		}
@@ -136,7 +136,7 @@ export default{
         let id=this.$route.params.id
         axios.get('/api/employee/'+id)
         .then(({data})=>(this.form = data))
-        .catch(console.log(this.error))
+        .catch(console.log(this.errors))
     },
 
   methods:{
@@ -150,7 +150,7 @@ export default{
         let reader=new FileReader();
         reader.onload= event=>{
           this.form.emp_new_photo = event.target.result
-          console.log(event.target.result)
+          
 
         };
         reader.readAsDataURL(file)
